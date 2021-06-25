@@ -3,7 +3,7 @@ import "./ExpenseForm.css";
 
 const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState(0);
   const [enteredDate, setEnteredDate] = useState("");
 
   const titleChangeHandler = (event) => {
@@ -21,7 +21,7 @@ const ExpenseForm = (props) => {
     e.preventDefault();
     const expenseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: +enteredAmount, //(+) convert amount from string to number to avoid string concat for bumbers
       date: new Date(enteredDate),
     };
     props.onSaveExpenseForm(expenseData);
@@ -40,6 +40,7 @@ const ExpenseForm = (props) => {
             name="title"
             id="title"
             value={enteredTitle}
+            required
             onChange={titleChangeHandler}
           />
         </div>
@@ -52,6 +53,7 @@ const ExpenseForm = (props) => {
             id="amount"
             min="0.01"
             step="0.01"
+            required
             value={enteredAmount}
             onChange={amountChangeHandler}
           />
@@ -65,6 +67,7 @@ const ExpenseForm = (props) => {
             id="date"
             min="2019-01-01"
             max="2022-12-31"
+            required
             value={enteredDate}
             onChange={dateChangeHandler}
           />

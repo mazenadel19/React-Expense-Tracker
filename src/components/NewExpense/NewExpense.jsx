@@ -29,7 +29,7 @@ const NewExpense = ({ onAddExpense }) => {
       )}
       {isEditing && (
         <ExpenseForm
-          onSaveExpenseData={saveExpenseDataHandler}
+          onSaveExpenseForm={saveExpenseDataHandler}
           onCancel={stopEditingHandler}
         />
       )}
