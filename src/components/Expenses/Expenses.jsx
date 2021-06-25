@@ -2,14 +2,33 @@ import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
 import "./Expenses.css";
 import Card from "../UI/Card";
-import ExpensesFilter from './ExpensesFilter';
+import ExpensesFilter from "./ExpensesFilter";
 
 const Expenses = ({ items }) => {
-  const [filteredYear, setFilteredYear] = useState("2020");
+  const [filteredYear, setFilteredYear] = useState("2021");
 
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
   };
+
+  const filteredExpenses = items.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
+
+  let expenseContent = <p>NO EXPENSE FOUND</p>;
+
+  if (filteredExpenses.length > 0) {
+    expenseContent =
+      filteredExpenses.length > 0 &&
+      filteredExpenses.map((expense) => (
+        <ExpenseItem
+          key={expense.id}
+          title={expense.title}
+          amount={expense.amount}
+          date={expense.date}
+        />
+      ));
+  }
 
   return (
     <Card className="expenses">
@@ -17,31 +36,34 @@ const Expenses = ({ items }) => {
         selected={filteredYear}
         onChangeFilter={filterChangeHandler}
       />
-    
-      <ExpenseItem
-        id={items[0].id}
-        title={items[0].title}
-        amount={items[0].amount}
-        date={items[0].date}
-      />
-      <ExpenseItem
-        id={items[1].id}
-        title={items[1].title}
-        amount={items[1].amount}
-        date={items[1].date}
-      />
-      <ExpenseItem
-        id={items[2].id}
-        title={items[2].title}
-        amount={items[2].amount}
-        date={items[2].date}
-      />
-      <ExpenseItem
-        id={items[3].id}
-        title={items[3].title}
-        amount={items[3].amount}
-        date={items[3].date}
-      />
+      {/* {filteredExpenses.length === 0 ? (
+        <p>NO EXPENSE FOUND</p>
+      ) : (
+        filteredExpenses.map((expense) => (
+          <ExpenseItem
+            key={expense.id}
+            title={expense.title}
+            amount={expense.amount}
+            date={expense.date}
+          />
+        ))
+      )} */}
+      {/* {filteredExpenses.length === 0 && <p>NO EXPENSE FOUND</p>}
+      {
+        (expenseContent =
+          filteredExpenses.length > 0 &&
+          filteredExpenses.map((expense) => (
+            <ExpenseItem
+              key={expense.id}
+              title={expense.title}
+              amount={expense.amount}
+              date={expense.date}
+            />
+          )))
+      } */}
+      {/* && Returns the part after it if the condition is met */}
+
+      {expenseContent}
     </Card>
   );
 };
